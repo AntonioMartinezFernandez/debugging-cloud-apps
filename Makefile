@@ -3,9 +3,13 @@
 .PHONY: all run debug
 all: run debug
 
-cluster:
+spawn:
 	@echo "Creating cluster..."
 	kind create cluster --name skaffold-dev --config ./tests/kind-cluster.yaml
+
+destroy:
+	@echo "Destroying cluster..."
+	kind delete cluster --name skaffold-dev
 
 run:
 	skaffold dev  --wait-for-deletions=false  --cleanup=false
