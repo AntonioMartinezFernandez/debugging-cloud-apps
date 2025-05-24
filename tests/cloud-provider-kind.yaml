@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-provider-kind
+  namespace: kube-system
+  labels:
+    app: cloud-provider-kind
+spec:
+  selector:
+    matchLabels:
+      app: cloud-provider-kind
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cloud-provider-kind
+    spec:
+      hostNetwork: true
+      containers:
+      - name: cloud-provider-kind
+        image: cloud-provider-kind
+        args:
+          - -enable-lb-port-mapping
+        volumeMounts:
+          - mountPath: /var/run/docker.sock
+            name: docker
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 128Mi
+      volumes:
+      - name: docker
+        hostPath:
+          path: /var/run/docker.sock
+---
+

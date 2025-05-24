@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antonio-api
+  namespace: default
+  labels:
+    app: antonio-api
+spec:
+  selector:
+    matchLabels:
+      app: antonio-api
+  template:
+    metadata:
+      labels:
+        app: antonio-api
+    spec:
+      serviceAccountName: antonio-api
+      containers:
+        - name: antonio-api
+          image: ghcr.io/antoniomartinez/api
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+          args:
+            - -log-level=debug
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: antonio-api
+  namespace: default
+spec:
+  selector:
+    app: antonio-api
+  type: ClusterIP
+  ports:
+  - name: antonio-api
+    protocol: TCP
+    port: 8080
+    targetPort: http
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: antonio-api
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: antonio-api
+rules:
+  - apiGroups:
+      - api.services.antonio.cloud
+    resources:
+      - "*"
+    verbs:
+      - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: antonio-api
+subjects:
+  - kind: ServiceAccount
+    name: antonio-api
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: antonio-api
+  apiGroup: rbac.authorization.k8s.io
