@@ -1,5 +1,7 @@
 # Debugging Cloud Apps
 
+![Demo Screenshot](assets/demo.png)
+
 ## Requirements
 
 1. [Docker Desktop](https://docs.docker.com/desktop/) / [Orbstack](https://orbstack.dev/)
