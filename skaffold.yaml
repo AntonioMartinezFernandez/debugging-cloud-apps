@@ -9,10 +9,10 @@ build:
     - image: ghcr.io/antoniomartinez/api
       context: .
       ko:
-        main: ./api/cmd
+        main: ./cmd/api
 manifests:
   rawYaml:
-    - test/api.yaml
+    - tests/api.yaml
 
 portForward:
   - resourceType: service
@@ -37,4 +37,4 @@ profiles:
               docker build -t $IMAGE https://github.com/kubernetes-sigs/cloud-provider-kind.git#main
       - op: add
         path: /manifests/rawYaml/-
-        value: test/cloud-provider-kind.yaml
+        value: tests/cloud-provider-kind.yaml
