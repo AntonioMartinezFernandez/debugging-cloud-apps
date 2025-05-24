@@ -5,8 +5,9 @@ metadata:
 build:
   local:
     useBuildkit: true
+    push: false
   artifacts:
-    - image: ghcr.io/antoniomartinez/api
+    - image: ghcr.io/AntonioMartinezFernandez/api
       context: .
       ko:
         main: ./cmd/api

@@ -17,7 +17,7 @@ spec:
       serviceAccountName: antonio-api
       containers:
         - name: antonio-api
-          image: ghcr.io/antoniomartinez/api
+          image: ghcr.io/AntonioMartinezFernandez/api
           ports:
             - name: http
               containerPort: 8080
